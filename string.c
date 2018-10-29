@@ -11,7 +11,7 @@ void reverse(char *begin, char *end) {
   }
 }
 
-char *itoa(char *buf, int32_t n, uint8_t base) {
+char *itoa(int32_t n, char *buf, uint8_t base) {
   if (base < 2 || base > 16) {
     *buf = '\0';
     return buf;

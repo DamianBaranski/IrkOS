@@ -2,7 +2,7 @@
 #define STRING_H
 #include "types.h"
 
-char *itoa(char *buf, int32_t n, uint8_t base);
+char *itoa(int32_t n, char *buf, uint8_t base);
 void *memset(void *dst, uint8_t src, size_t n);
 void *memcpy(void *dst, void *src, size_t n);
 size_t strlen(char *str);
