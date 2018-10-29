@@ -24,6 +24,9 @@ char *itoa(int32_t n, char *buf, uint8_t base) {
     isNegative = 1;
   }
 
+  if (n == 0)
+    *buf++ = '0';
+
   while (n) {
     *buf++ = *(array + (n % base));
     n = n / base;
