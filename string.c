@@ -1,6 +1,39 @@
 #include "string.h"
 
-void itoa(char *buf, uint64_t n, uint8_t base);
+void reverse(char *begin, char *end) {
+  char tmp;
+  while (begin < end) {
+    tmp = *begin;
+    *begin = *end;
+    *end = tmp;
+    begin++;
+    end--;
+  }
+}
+
+char *itoa(char *buf, int32_t n, uint8_t base) {
+  if (base < 2 || base > 16) {
+    *buf = '\0';
+    return buf;
+  }
+  char *array = "0123456789ABCDEF";
+  char *ret = buf;
+  uint8_t isNegative = 0;
+  if (n < 0) {
+    n = -n;
+    isNegative = 1;
+  }
+
+  while (n) {
+    *buf++ = *(array + (n % base));
+    n = n / base;
+  }
+  if (isNegative)
+    *buf++ = '-';
+  *buf = '\0';
+  reverse(ret, buf - 1);
+  return ret;
+}
 
 void *memset(void *dst, uint8_t c, size_t n) {
   uint8_t *pointer = dst;
