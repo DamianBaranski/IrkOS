@@ -20,13 +20,14 @@ void vga_init() {
   vga.y = 0;
 }
 void vga_cls() {
-  memset(vga.mem, 0, SCREEN_WIDTH * SCREEN_HEIGHT*sizeof(pixel_t));
+  memset(vga.mem, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(pixel_t));
 }
 
 void vga_put(char ch) {
   if (vga.y == SCREEN_HEIGHT) {
-    memcpy(VGA_RAM_COLOR, VGA_RAM_COLOR+SCREEN_WIDTH, SCREEN_WIDTH*SCREEN_HEIGHT*sizeof(pixel_t)); // scroll one line;
-    vga.y-=1;
+    memcpy(VGA_RAM_COLOR, VGA_RAM_COLOR + SCREEN_WIDTH,
+           SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(pixel_t)); // scroll one line;
+    vga.y -= 1;
   }
   switch (ch) {
   case '\n':
@@ -47,7 +48,6 @@ void vga_put(char ch) {
     vga.x = 0;
     vga.y++;
   }
-
 }
 
 void vga_puts(const char *string) {
