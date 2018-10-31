@@ -6,8 +6,10 @@
 #define SCREEN_HEIGHT 25
 #define VGA_RAM_COLOR (uint16_t *)0xB8000
 
+typedef uint16_t pixel_t;
+
 struct {
-  uint16_t *mem;
+  pixel_t *mem;
   uint8_t x;
   uint8_t y;
 } vga;
@@ -18,10 +20,14 @@ void vga_init() {
   vga.y = 0;
 }
 void vga_cls() {
-  memset(vga.mem, 0, sizeof(vga.mem) * SCREEN_WIDTH * SCREEN_HEIGHT);
+  memset(vga.mem, 0, SCREEN_WIDTH * SCREEN_HEIGHT*sizeof(pixel_t));
 }
 
 void vga_put(char ch) {
+  if (vga.y == SCREEN_HEIGHT) {
+    memcpy(VGA_RAM_COLOR, VGA_RAM_COLOR+SCREEN_WIDTH, SCREEN_WIDTH*SCREEN_HEIGHT*sizeof(pixel_t)); // scroll one line;
+    vga.y-=1;
+  }
   switch (ch) {
   case '\n':
     vga.x = 0;
@@ -37,14 +43,11 @@ void vga_put(char ch) {
     *(vga.mem + vga.x + vga.y * SCREEN_WIDTH) = ch | 0x0F00;
     vga.x++;
   }
-  if (vga.x > SCREEN_WIDTH) {
+  if (vga.x == SCREEN_WIDTH) {
     vga.x = 0;
     vga.y++;
   }
-  if (vga.y > SCREEN_HEIGHT) {
-    // scroll one line;
-    vga.y--;
-  }
+
 }
 
 void vga_puts(const char *string) {
