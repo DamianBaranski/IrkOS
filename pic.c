@@ -43,6 +43,8 @@
 #define OCW2_SL (1 << 6)  // Selection
 #define OCW2_R (1 << 7)   // Rotation option
 
+#define IRQ_BYPASS 2 //IRQ number the master PIC uses to connect to slave PIC
+
 void pic_remap(void) {
   // ICW1 - Begin initialization
   outb(PIC1_CTRL, ICW1_IC4 | ICW1_INIT);
@@ -53,8 +55,8 @@ void pic_remap(void) {
   outb(PIC2_DATA, 0x28);
 
   // ICW3 - Set the IR line to connect both PICs
-  outb(PIC1_DATA, (1 << 2)); // IR line 2
-  outb(PIC2_DATA, (1 << 1)); // IR line 2
+  outb(PIC1_DATA, (1 << IRQ_BYPASS)); // IR line 2
+  outb(PIC2_DATA, IRQ_BYPASS); // IR line 2
 
   // ICW4 - Set x86 mode
   outb(PIC1_DATA, ICW4_uPM);
