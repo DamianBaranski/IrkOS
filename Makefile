@@ -2,7 +2,8 @@ OBJ_FILES=kernel.o \
 	  loader.o \
 	  string.o \
 	  vga.o \
-	  gdt.o
+	  gdt.o \
+	  pic.o 
 
 run: kernel.bin
 	qemu-system-x86_64 -kernel $<
